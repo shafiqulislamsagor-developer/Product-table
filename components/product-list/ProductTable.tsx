@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   ColumnDef,
@@ -11,22 +11,18 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from '@tanstack/react-table';
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from 'lucide-react';
-import * as React from 'react';
+} from "@tanstack/react-table";
+import { ArrowUpDown, ChevronDown } from "lucide-react";
+import * as React from "react";
 
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Input } from '@/components/ui/input';
+} from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
 import {
   Table,
   TableBody,
@@ -34,156 +30,152 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
-import { ProductPagination } from './ProductPagination';
+import { ProductPagination } from "./ProductPagination";
+import Image, { StaticImageData } from "next/image";
 
-const data: Payment[] = [
+const AllData: Payment[] = [
   {
-    id: 'm5gr84i9',
+    id: "m5gr84i9",
     amount: 316,
-    status: 'success',
-    email: 'ken99@yahoo.com',
+    brandName: "success",
+    title: "ken99@yahoo.com",
+    styleImage:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s",
+    categories: [21, 57, 71, 79, 87],
   },
   {
-    id: '3u1reuv4',
+    id: "3u1reuv4",
     amount: 242,
-    status: 'success',
-    email: 'Abe45@gmail.com',
+    brandName: "success",
+    title: "Abe45@gmail.com",
+    styleImage:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s",
+    categories: [21, 57, 71, 79, 87],
   },
   {
-    id: 'derv1ws0',
+    id: "derv1ws0",
     amount: 837,
-    status: 'processing',
-    email: 'Monserrat44@gmail.com',
+    brandName: "processing",
+    title: "Monserrat44@gmail.com",
+    styleImage:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s",
+    categories: [21, 57, 71, 79, 87],
   },
   {
-    id: '5kma53ae',
+    id: "5kma53ae",
     amount: 874,
-    status: 'success',
-    email: 'Silas22@gmail.com',
+    brandName: "success",
+    title: "Silas22@gmail.com",
+    styleImage:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s",
+    categories: [21, 57, 71, 79, 87],
   },
   {
-    id: 'bhqecj4p',
+    id: "bhqecj4p",
     amount: 721,
-    status: 'failed',
-    email: 'carmella@hotmail.com',
+    brandName: "failed",
+    title: "carmella@hotmail.com",
+    styleImage:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBks98xcOTXXIYF3z87erbFfZ2RE4mWK5myQ&s",
+    categories: [21, 57, 71, 79, 87],
   },
 ];
 
 export type Payment = {
   id: string;
   amount: number;
-  status: 'pending' | 'processing' | 'success' | 'failed';
-  email: string;
-};
+  brandName: string;
+  title: string;
+} & Record<
+  string,
+  string | number | boolean | number[] | string[] | StaticImageData
+>;
 
 export const columns: ColumnDef<Payment>[] = [
   {
-    id: 'select',
-    header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected() ||
-          (table.getIsSomePageRowsSelected() && 'indeterminate')
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
+    accessorKey: "styleImage",
+    header: "Image",
     cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  },
-  {
-    accessorKey: 'status',
-    header: 'Status',
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue('status')}</div>
+      <div className="capitalize">
+        {" "}
+        <Image
+          alt="photo"
+          src={row.getValue("styleImage")}
+          width={80}
+          height={80}
+          className="object-cover"
+        />
+      </div>
     ),
   },
   {
-    accessorKey: 'email',
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          className="text-center "
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          title
           <ArrowUpDown className="ml-2 h-4 w-4" />
         </Button>
       );
     },
-    cell: ({ row }) => <div className="lowercase">{row.getValue('email')}</div>,
+    cell: ({ row }) => <div className="lowercase">{row.getValue("title")}</div>,
   },
   {
-    accessorKey: 'amount',
+    accessorKey: "brandName",
+    header: "brandName",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("brandName")}</div>
+    ),
+  },
+  {
+    accessorKey: "categories",
+    header: "categories",
+    cell: ({ row }) => {
+      const categoriesArray = row.getValue("categories") as number[];
+      return <div className="capitalize">{categoriesArray.length}</div>;
+    },
+  },
+
+  {
+    accessorKey: "amount",
     header: () => <div className="text-right">Amount</div>,
     cell: ({ row }) => {
-      const amount = parseFloat(row.getValue('amount'));
+      const amount = parseFloat(row.getValue("amount"));
 
-      const formatted = new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
       }).format(amount);
 
       return <div className="text-right font-medium">{formatted}</div>;
     },
   },
-  {
-    id: 'actions',
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original;
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      );
-    },
-  },
 ];
 
 export function ProductTable() {
+  const [originalData] = React.useState(AllData); // Keep the original data separate
+  const [data, setData] = React.useState(AllData); // Store the filtered data
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    [],
+    []
   );
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = React.useState({});
   const [currentPage, setCurrentPage] = React.useState(1);
 
-  const itemsPerPage = 1;
+  const itemsPerPage = 2;
 
   const paginatedData = React.useMemo(() => {
     const startIndex = (currentPage - 1) * itemsPerPage;
     return data.slice(startIndex, startIndex + itemsPerPage);
-  }, [currentPage]);
+  }, [data, currentPage]);
 
   const table = useReactTable({
     data: paginatedData,
@@ -204,14 +196,33 @@ export function ProductTable() {
     },
   });
 
+  const [brandName, setBrandName] = React.useState("All Brands");
+
+  const uniqueBrandNames = [
+    "All Brands",
+    ...Array.from(new Set(AllData.map((item) => item.brandName.toLowerCase()))),
+  ];
+
+  const brandChanged = (brand: string) => {
+    setBrandName(brand);
+    if (brand === "All Brands") {
+      setData(originalData); // Reset to original data
+    } else {
+      const currentData = originalData.filter(
+        (singleData) => singleData.brandName.toLowerCase() === brand
+      );
+      setData(currentData);
+    }
+  };
+
   return (
     <div className="w-full">
       <div className="flex items-center py-4">
         <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn('email')?.getFilterValue() as string) ?? ''}
+          placeholder="Filter titles..."
+          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn('email')?.setFilterValue(event.target.value)
+            table.getColumn("title")?.setFilterValue(event.target.value)
           }
           className="max-w-sm"
         />
@@ -219,27 +230,20 @@ export function ProductTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button className="ml-auto">
-              Columns <ChevronDown className="ml-2 h-4 w-4" />
+              Brand Name <ChevronDown className="ml-2 h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter((column) => column.getCanHide())
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
-                );
-              })}
+            {uniqueBrandNames.map((brand, id) => (
+              <DropdownMenuCheckboxItem
+                key={id}
+                className="cursor-pointer"
+                checked={brand === brandName}
+                onCheckedChange={() => brandChanged(brand)}
+              >
+                {brand}
+              </DropdownMenuCheckboxItem>
+            ))}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
@@ -255,7 +259,7 @@ export function ProductTable() {
                         ? null
                         : flexRender(
                             header.column.columnDef.header,
-                            header.getContext(),
+                            header.getContext()
                           )}
                     </TableHead>
                   );
@@ -268,13 +272,13 @@ export function ProductTable() {
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  data-state={row.getIsSelected() && 'selected'}
+                  data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext(),
+                        cell.getContext()
                       )}
                     </TableCell>
                   ))}
