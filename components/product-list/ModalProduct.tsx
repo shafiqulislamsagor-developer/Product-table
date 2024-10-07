@@ -1,50 +1,42 @@
 import {
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
-  AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { Payment } from "./ProductTable";
-import Image from "next/image";
+import Step1 from "../WizardStep/Step1";
+import StepWizard, { StepWizardChildProps } from "react-step-wizard";
+import Step2 from "../WizardStep/Step2";
+import { useRef } from "react";
 
 type ModalProductProps = {
   id: Payment;
 };
 
 export function ModalProduct({ id }: ModalProductProps) {
+  const wizardInstance = useRef<StepWizardChildProps | null>(null);
+  console.log(wizardInstance);
   return (
     <AlertDialogContent>
       <AlertDialogHeader>
-        <AlertDialogTitle>{id.title}</AlertDialogTitle>
         <AlertDialogDescription>
-          <Image
-            src={typeof id.styleImage === "string" ? id.styleImage : ""}
-            alt="product photo"
-            height={200}
-            className="mx-auto"
-            width={200}
-          />
-          <h1>Price : {id.amount}</h1>
-          <h1>Brand : {id.brandName}</h1>
-          <h1>Color : red</h1>
-          <h1>Quantity: 100</h1>
-
-          <h1>Category : </h1>
-          {Array.isArray(id.categories)
-            ? id.categories.join(", ")
-            : typeof id.categories === "string" ||
-                typeof id.categories === "number"
-              ? id.categories
-              : "Invalid data"}
+          <StepWizard>
+            <Step1
+              id={id}
+              nextStep={() => wizardInstance.current?.nextStep()}
+              previousStep={() => wizardInstance.current?.previousStep()}
+              goToStep={(stepNumber) =>
+                wizardInstance.current?.goToStep(stepNumber)
+              }
+            />
+            <Step2 />
+          </StepWizard>
         </AlertDialogDescription>
       </AlertDialogHeader>
-      <AlertDialogFooter>
+      {/* <AlertDialogFooter>
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <AlertDialogAction>Continue</AlertDialogAction>
-      </AlertDialogFooter>
+      </AlertDialogFooter> */}
     </AlertDialogContent>
   );
 }
