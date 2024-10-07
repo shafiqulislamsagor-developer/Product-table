@@ -1,4 +1,5 @@
 import Lottie from "lottie-react";
+
 import groovyWalkAnimation from "../../public/Animation - 1728272273822.json";
 import { AlertDialogAction } from "../ui/alert-dialog";
 
