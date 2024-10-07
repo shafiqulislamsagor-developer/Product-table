@@ -16,7 +16,9 @@ export default function Step2() {
         </h2>
       </div>
       <div className="flex justify-center mt-5">
-        <AlertDialogAction>Completed</AlertDialogAction>
+        <AlertDialogAction className="bg-green-500 text-white">
+          Completed
+        </AlertDialogAction>
       </div>
     </div>
   );

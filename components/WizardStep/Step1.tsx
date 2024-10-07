@@ -33,8 +33,6 @@ export default function Step1({ id, nextStep, previousStep }: Step1Props) {
         : typeof id.categories === "string" || typeof id.categories === "number"
           ? id.categories
           : "Invalid data"}
-      <button onClick={nextStep}>Next</button>
-      <button onClick={previousStep}>pre</button>
       <div className="flex justify-between items-center  mt-10">
         <AlertDialogCancel>Cancel</AlertDialogCancel>
         <div className="flex justify-end items-center gap-2 ">
