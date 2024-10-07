@@ -12,6 +12,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { AlertDialog, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { ArrowUpDown, ChevronDown } from "lucide-react";
 import * as React from "react";
 
@@ -34,10 +35,11 @@ import {
 
 import { ProductPagination } from "./ProductPagination";
 import Image, { StaticImageData } from "next/image";
+import { ModalProduct } from "./ModalProduct";
 
 const AllData: Payment[] = [
   {
-    id: "m5gr84i9",
+    styleID: "m5gr84i9",
     amount: 316,
     brandName: "success",
     title: "ken99@yahoo.com",
@@ -46,7 +48,7 @@ const AllData: Payment[] = [
     categories: [21, 57, 71, 79, 87],
   },
   {
-    id: "3u1reuv4",
+    styleID: "3u1reuv4",
     amount: 242,
     brandName: "success",
     title: "Abe45@gmail.com",
@@ -55,7 +57,7 @@ const AllData: Payment[] = [
     categories: [21, 57, 71, 79, 87],
   },
   {
-    id: "derv1ws0",
+    styleID: "derv1ws0",
     amount: 837,
     brandName: "processing",
     title: "Monserrat44@gmail.com",
@@ -64,7 +66,7 @@ const AllData: Payment[] = [
     categories: [21, 57, 71, 79, 87],
   },
   {
-    id: "5kma53ae",
+    styleID: "5kma53ae",
     amount: 874,
     brandName: "success",
     title: "Silas22@gmail.com",
@@ -73,7 +75,7 @@ const AllData: Payment[] = [
     categories: [21, 57, 71, 79, 87],
   },
   {
-    id: "bhqecj4p",
+    styleID: "bhqecj4p",
     amount: 721,
     brandName: "failed",
     title: "carmella@hotmail.com",
@@ -84,13 +86,22 @@ const AllData: Payment[] = [
 ];
 
 export type Payment = {
-  id: string;
+  styleID: string;
   amount: number;
   brandName: string;
   title: string;
 } & Record<
   string,
-  string | number | boolean | number[] | string[] | StaticImageData
+  | string
+  | number
+  | boolean
+  | number[]
+  | string[]
+  | StaticImageData
+  | React.ReactNode
+  | React.ReactElement
+  | null
+  | undefined
 >;
 
 export const columns: ColumnDef<Payment>[] = [
@@ -270,19 +281,22 @@ export function ProductTable() {
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
+                <AlertDialog key={row.id}>
+                  {/* {console.log(row)} */}
+                  <AlertDialogTrigger className="cursor-pointer" asChild>
+                    <TableRow data-state={row.getIsSelected() && "selected"}>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  </AlertDialogTrigger>
+                  <ModalProduct id={row.original} />
+                </AlertDialog>
               ))
             ) : (
               <TableRow>
