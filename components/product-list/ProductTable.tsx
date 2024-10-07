@@ -282,7 +282,6 @@ export function ProductTable() {
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <AlertDialog key={row.id}>
-                  {/* {console.log(row)} */}
                   <AlertDialogTrigger className="cursor-pointer" asChild>
                     <TableRow data-state={row.getIsSelected() && "selected"}>
                       {row.getVisibleCells().map((cell) => (
