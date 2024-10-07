@@ -217,7 +217,7 @@ export function ProductTable() {
   const brandChanged = (brand: string) => {
     setBrandName(brand);
     if (brand === "All Brands") {
-      setData(originalData); // Reset to original data
+      setData(originalData);
     } else {
       const currentData = originalData.filter(
         (singleData) => singleData.brandName.toLowerCase() === brand
